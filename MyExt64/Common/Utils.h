@@ -111,3 +111,15 @@ UINT64 GetVt(T *object)
 	return *reinterpret_cast<UINT64*>(object);
 }
 
+template<typename T, typename R, typename A>
+UINT32 FnPtr(R(T::*f)(A))
+{
+    union
+    {
+        R(T::*pf)(A);
+        UINT64 p;
+    };
+    pf = f;
+    return static_cast<UINT32>(p);
+}
+
